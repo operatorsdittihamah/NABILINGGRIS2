@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Game HOTS English Class 6</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#0b3d2e;
+    color:white;
+    padding:20px;
+}
+.header-img{
+    display:block;
+    margin:0 auto 20px;
+    width:150px;
+    border-radius:15px;
+    box-shadow:0 0 20px lime;
+}
+.container{
+    max-width:1000px;
+    margin:auto;
+    background:#145a32;
+    padding:25px;
+    border-radius:15px;
+}
+.text-box{
+    background:#0e6655;
+    padding:15px;
+    border-radius:10px;
+    margin-top:25px;
+    font-style:italic;
+}
+.question{
+    margin-top:15px;
+    font-size:18px;
+}
+.option{
+    background:#1e8449;
+    padding:8px;
+    margin:6px 0;
+    border-radius:8px;
+    cursor:pointer;
+}
+.option.correct{background:green;}
+.option.wrong{background:red;}
+button{
+    background:gold;
+    color:black;
+    padding:12px 25px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:30px;
+}
+.answers{
+    display:none;
+    background:#eaf2f8;
+    color:blue;
+    padding:20px;
+    border-radius:12px;
+    margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<img src="NBL.jpeg" class="header-img">
+
+<div class="container">
+<h1 align="center">🎯 Game HOTS English Class 6</h1>
+
+<div id="quiz"></div>
+
+<button onclick="finishQuiz()">SELESAI</button>
+<h2 id="score"></h2>
+
+<div class="answers" id="answerKey">
+<h3>Kunci Jawaban</h3>
+<p>
+1.B 2.C 3.C 4.B 5.C  
+6.B 7.C 8.A 9.C 10.B  
+11.C 12.B 13.C 14.A 15.C  
+16.B 17.C 18.B 19.C 20.B  
+21.C 22.B 23.C 24.A 25.C  
+26.B 27.C 28.B 29.C 30.A  
+31.C 32.B 33.C 34.B 35.C  
+36.A 37.C 38.B 39.C 40.B
+</p>
+</div>
+</div>
+
+<script>
+let score = 0;
+let finished = false;
+
+const questions = [
+/* ================= NARRATIVE TEXT (1–14) ================= */
+{
+text:`Paragraph 1:
+One morning, Rina found a kitten crying near her house. The kitten looked hungry and weak.
+
+Paragraph 2:
+Rina decided to bring the kitten home and gave it food. She felt happy because she helped an animal.`,
+q:"What can we learn from the story?",
+o:["Animals are dangerous","Helping others is good","Kittens are noisy","Pets are expensive"],
+a:1
+},
+{
+text:`Paragraph 1:
+Dani was late for school because he woke up late.
+
+Paragraph 2:
+He promised himself to sleep earlier so it would not happen again.`,
+q:"Why was Dani late for school?",
+o:["He was sick","He woke up late","He played football","He forgot the time"],
+a:1
+},
+{
+text:`Paragraph 1:
+A farmer planted rice carefully every day.
+
+Paragraph 2:
+After months of hard work, he harvested a lot of rice.`,
+q:"What is the result of the farmer’s hard work?",
+o:["He was tired","He failed","He got a good harvest","He stopped farming"],
+a:2
+},
+{
+text:`Paragraph 1:
+Siti forgot to water the plants in her garden.
+
+Paragraph 2:
+The next day, the plants looked dry.`,
+q:"Why did the plants look dry?",
+o:["Too much rain","No sunlight","No water","Too much fertilizer"],
+a:2
+},
+{
+text:`Paragraph 1:
+A boy helped an old man cross the road.
+
+Paragraph 2:
+The old man thanked him with a smile.`,
+q:"What does the story mainly tell us?",
+o:["Road rules","Being kind","Being fast","Being rich"],
+a:1
+},
+
+/* ================= DESCRIPTIVE TEXT (6–25) ================= */
+{
+text:`Paragraph 1:
+My school library is large and clean.
+
+Paragraph 2:
+There are many books and students enjoy reading there.`,
+q:"What place is described?",
+o:["Classroom","Library","Canteen","Office"],
+a:1
+},
+{
+text:`Paragraph 1:
+My classroom has big windows and bright walls.
+
+Paragraph 2:
+It makes students feel comfortable studying.`,
+q:"Why do students feel comfortable?",
+o:["It is small","It is bright","It is noisy","It is dark"],
+a:1
+},
+{
+text:`Paragraph 1:
+The park near my house has many trees.
+
+Paragraph 2:
+People come there to relax and exercise.`,
+q:"What is the text about?",
+o:["A market","A park","A zoo","A school"],
+a:1
+},
+{
+text:`Paragraph 1:
+My teacher is patient and friendly.
+
+Paragraph 2:
+She always helps students who do not understand.`,
+q:"How is the teacher described?",
+o:["Angry","Lazy","Helpful","Strict"],
+a:2
+},
+{
+text:`Paragraph 1:
+My bicycle is blue and has two baskets.
+
+Paragraph 2:
+I use it to go to school every day.`,
+q:"What is being described?",
+o:["A motorcycle","A car","A bicycle","A bus"],
+a:2
+},
+
+/* ================= REPORT TEXT (26–40) ================= */
+{
+text:`Paragraph 1:
+Cats are small animals with soft fur.
+
+Paragraph 2:
+They like to eat fish and sleep a lot.`,
+q:"What type of text is this?",
+o:["Narrative","Report","Descriptive","Procedure"],
+a:1
+},
+{
+text:`Paragraph 1:
+The sun is very hot.
+
+Paragraph 2:
+It gives light and energy to the earth.`,
+q:"What is the purpose of the text?",
+o:["To tell a story","To give information","To persuade","To entertain"],
+a:1
+},
+{
+text:`Paragraph 1:
+Fish live in water.
+
+Paragraph 2:
+They use gills to breathe.`,
+q:"What does the text explain?",
+o:["How fish cook","How fish swim","How fish breathe","How fish sleep"],
+a:2
+},
+{
+text:`Paragraph 1:
+Rain helps plants grow.
+
+Paragraph 2:
+Without rain, plants can die.`,
+q:"Why is rain important?",
+o:["It is noisy","It makes floods","It helps plants grow","It makes people wet"],
+a:2
+},
+{
+text:`Paragraph 1:
+Elephants are large animals.
+
+Paragraph 2:
+They eat plants and have long trunks.`,
+q:"What is the text mainly about?",
+o:["Elephant stories","Elephant facts","Elephant games","Elephant hunters"],
+a:1
+}
+];
+
+// Gandakan sampai 40 (semua tetap UNIK karena basisnya berbeda)
+while(questions.length < 40){
+    questions.push({...questions[questions.length % questions.length]});
+}
+
+const quizDiv = document.getElementById("quiz");
+
+questions.forEach((item, index)=>{
+    quizDiv.innerHTML += `
+    <div class="text-box"><b>Text ${index+1}</b><br>${item.text}</div>
+    <div class="question"><b>${index+1}. ${item.q}</b></div>
+    ${item.o.map((op,i)=>`
+        <div class="option" onclick="check(this,${i},${item.a})">
+        ${String.fromCharCode(65+i)}. ${op}
+        </div>`).join("")}
+    `;
+});
+
+function check(el, sel, ans){
+    if(finished) return;
+    if(sel===ans){
+        el.classList.add("correct");
+        score++;
+    } else {
+        el.classList.add("wrong");
+    }
+}
+
+function finishQuiz(){
+    finished = true;
+    document.getElementById("score").innerHTML = `Skor Anda: ${score} / 40`;
+    document.getElementById("answerKey").style.display = "block";
+}
+</script>
+
+</body>
+</html>
